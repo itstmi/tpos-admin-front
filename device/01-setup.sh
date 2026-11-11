@@ -10,7 +10,7 @@ TIMER=tposadminfront-safety
 [ "$(id -u)" -eq 0 ] || { echo "run as root"; exit 1; }
 [ "$(hostname)" = "tposadminfront" ] || { echo "wrong device: $(hostname)"; exit 1; }
 grep -q . /root/.ssh/authorized_keys || { echo "no SSH key in authorized_keys, stopping"; exit 1; }
-sshd -T | grep -q '^passwordauthentication no' || { echo "password login is still on, stopping"; exit 1; }
+sshd -T | grep '^passwordauthentication no' >/dev/null || { echo "password login is still on, stopping"; exit 1; }
 
 echo "== Auto install off (package lists still refresh) =="
 cat > /etc/apt/apt.conf.d/52tpos-no-auto-upgrade <<'A'
