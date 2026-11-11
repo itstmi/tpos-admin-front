@@ -1,0 +1,13 @@
+[Unit]
+Description=SSH tunnel to WAHA on Panther 1 (127.0.0.1:3001)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+ExecStart=/usr/bin/ssh -N -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o ConnectTimeout=10 -i /root/.ssh/wa_tunnel_ed25519 -L 127.0.0.1:3001:127.0.0.1:3001 tunnel-wa@192.168.100.82
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
