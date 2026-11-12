@@ -9,6 +9,8 @@ const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', 'loopback');
 app.use(helmet());
+// Customer import sends up to 5000 rows; every other route keeps the small limit
+app.use('/api/panel/isps/:id/import', express.json({ limit: '1mb' }));
 app.use(express.json({ limit: '100kb' }));
 
 function onlyHost(host) {
