@@ -6,6 +6,7 @@ import { logActivity } from '../logs.js';
 import { fakeVerify, hashPassword, verifyPassword } from '../passwords.js';
 import { newToken } from '../tokens.js';
 import { requireAppKey, requireSubAdmin, sessionExpiry } from '../auth/app.js';
+import { ispRoutes } from '../isps.js';
 
 const router = Router();
 
@@ -114,5 +115,7 @@ router.post('/logout', async (req, res) => {
   await logActivity(req.admin, 'logout', { ip: req.ip });
   res.json({ ok: true });
 });
+
+ispRoutes(router, { createdBy: (req) => req.admin.id });
 
 export default router;

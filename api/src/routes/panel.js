@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import { requireSuperAdmin } from '../auth/panel.js';
+import { ispRoutes } from '../isps.js';
 
 const router = Router();
 
@@ -17,5 +18,7 @@ router.use(requireSuperAdmin);
 router.get('/me', (req, res) => {
   res.json({ admin: req.admin });
 });
+
+ispRoutes(router);
 
 export default router;

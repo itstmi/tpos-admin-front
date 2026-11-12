@@ -64,6 +64,14 @@ try {
   r = await call('GET', '/api/app/me', { token: tokenOne, device: 'device-one-1' });
   step('old device logged out', r.status === 401);
 
+  r = await call('GET', '/api/app/isps', { token: tokenTwo, device: 'device-two-2' });
+  step('own ISP list (none for test admin)', r.status === 200 && Array.isArray(r.body.isps) && r.body.isps.length === 0);
+  const [someIsp] = await db.select('isp_accounts', { select: 'id', limit: '1' });
+  r = await call('GET', `/api/app/isps/${someIsp.id}`, { token: tokenTwo, device: 'device-two-2' });
+  step('other admin ISP refused', r.status === 404);
+  r = await call('GET', '/api/app/isps/not-a-uuid', { token: tokenTwo, device: 'device-two-2' });
+  step('bad ISP id refused', r.status === 400);
+
   r = await call('POST', '/api/app/logout', { token: tokenTwo, device: 'device-two-2' });
   step('logout', r.status === 200);
   r = await call('GET', '/api/app/me', { token: tokenTwo, device: 'device-two-2' });
