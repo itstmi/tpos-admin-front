@@ -1,7 +1,7 @@
-import { randomInt } from 'node:crypto';
 import { z } from 'zod';
 import { db } from './db.js';
 import { logActivity } from './logs.js';
+import { generatePassword } from './passwordGen.js';
 import { hashPassword } from './passwords.js';
 
 const uuid = z.uuid();
@@ -27,20 +27,6 @@ const profileBody = z.object({ name, city }).strict();
 const ERROR_STATUS = { NOT_ALLOWED: 403, INVALID_INPUT: 400, USERNAME_EXISTS: 409, NOT_FOUND: 404, HAS_HISTORY: 409 };
 
 const LIST_FIELDS = 'id,name,username,city,tpos_amount,trial_limit,is_active,is_blocked,created_at';
-
-const SETS = ['ABCDEFGHJKLMNPQRSTUVWXYZ', 'abcdefghijkmnopqrstuvwxyz', '23456789', '!@#$%&*?-_=+'];
-
-// 18 characters, at least one from each set, shuffled
-export function generatePassword(length = 18) {
-  const all = SETS.join('');
-  const chars = SETS.map((s) => s[randomInt(s.length)]);
-  while (chars.length < length) chars.push(all[randomInt(all.length)]);
-  for (let i = chars.length - 1; i > 0; i -= 1) {
-    const j = randomInt(i + 1);
-    [chars[i], chars[j]] = [chars[j], chars[i]];
-  }
-  return chars.join('');
-}
 
 function idFrom(req, res) {
   const parsed = uuid.safeParse(req.params.id);

@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import http from 'node:http';
 import { db } from '../src/db.js';
 import { hashPassword } from '../src/passwords.js';
-import { generatePassword } from '../src/subAdmins.js';
+import { generatePassword } from '../src/passwordGen.js';
 
 const PORT = Number(process.env.PORT);
 const APP_HOST = process.env.APP_HOST;
