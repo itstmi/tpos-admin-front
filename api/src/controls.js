@@ -14,7 +14,7 @@ const COLUMNS = {
   dealer: 'dealer_enabled',
 };
 
-const FIELDS = 'id,business_name,status,whatsapp_enabled,dealer_enabled,auto_bill,blocked_by,block_reason,blocked_by_role,blocked_by_name';
+const FIELDS = 'id,business_name,city,status,whatsapp_enabled,dealer_enabled,auto_bill,blocked_by,block_reason,blocked_by_role,blocked_by_name,bill_start,trial_ends_at';
 
 // Sub admin app: only own ISPs and only block/unblock. Panel: everything.
 export function controlRoutes(router, { createdBy, superAdmin = false } = {}) {
@@ -69,6 +69,8 @@ export function controlRoutes(router, { createdBy, superAdmin = false } = {}) {
       p_name: req.admin.name,
     });
     if (result === 'blocked_by_super_admin') return res.status(403).json({ error: 'blocked_by_super_admin' });
+    // A trial block opens only through make paid or extend trial
+    if (result === 'trial_ended') return res.status(409).json({ error: 'trial_ended' });
     if (result !== 'ok') return res.status(404).json({ error: 'not_found' });
 
     await logActivity(req.admin, parsed.data.blocked ? 'isp_block' : 'isp_unblock', { isp_id: isp.id });
