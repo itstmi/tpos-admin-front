@@ -6,6 +6,7 @@ import { logActivity } from '../logs.js';
 import { fakeVerify, hashPassword, verifyPassword } from '../passwords.js';
 import { newToken } from '../tokens.js';
 import { requireAppKey, requireSubAdmin, sessionExpiry } from '../auth/app.js';
+import { appLogRoutes } from '../activity.js';
 import { chargeRoutes } from '../charges.js';
 import { controlRoutes } from '../controls.js';
 import { myAccountRoutes } from '../handovers.js';
@@ -125,5 +126,6 @@ controlRoutes(router, { createdBy: (req) => req.admin.id });
 chargeRoutes(router, { createdBy: (req) => req.admin.id });
 myAccountRoutes(router);
 subAdminIspRoutes(router);
+appLogRoutes(router);
 
 export default router;
