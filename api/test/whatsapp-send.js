@@ -1,6 +1,6 @@
 // Sends one sample ISP bill message from the TPOS session to the number given (your own phone).
 // Touches no bill and no ISP. Usage: node --env-file=/opt/tposadmin/api/.env api/test/whatsapp-send.js 03xxxxxxxxx
-import { chargeMessage } from '../src/charges.js';
+import { chargeMessage } from '../src/messages.js';
 import { sendTposMessage } from '../src/whatsapp.js';
 
 const phone = process.argv[2] || '';

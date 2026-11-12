@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { db } from './db.js';
 import { logActivity } from './logs.js';
+import { chargeMessage } from './messages.js';
 import { sendTposMessage } from './whatsapp.js';
 
 const uuid = z.uuid();
@@ -8,11 +9,6 @@ const uuid = z.uuid();
 const CHARGE_FIELDS = 'id,isp_id,month,year,amount,tpos_amount,status,period_start,period_end,paid_at,collected_at,approved_at,collector:admins!isp_charges_history_collected_by_fkey(name,role)';
 
 const RESULT_STATUS = { forbidden: 403, not_found: 404, bad_state: 409 };
-
-// Same template as the customer payment message, without the method (ISP bills only).
-export function chargeMessage(r) {
-  return `Dear ${r.business_name}, PKR ${Number(r.amount)} received. Collected by: ${r.collected_by_name}. Remaining Balance: PKR ${Number(r.balance)}. Thank you! -TPOS`;
-}
 
 function showCollector(charge) {
   const { collector, ...rest } = charge;
