@@ -3,6 +3,7 @@ import { rateLimit } from 'express-rate-limit';
 import { z } from 'zod';
 import { requireSuperAdmin } from '../auth/panel.js';
 import { cnicReady } from '../cnic.js';
+import { controlRoutes } from '../controls.js';
 import { collectExport, pkToday } from '../export.js';
 import { ispRoutes } from '../isps.js';
 import { logActivity } from '../logs.js';
@@ -24,6 +25,7 @@ router.get('/me', (req, res) => {
 });
 
 ispRoutes(router);
+controlRoutes(router, { superAdmin: true });
 
 const exportLimit = rateLimit({
   windowMs: 60 * 60 * 1000,
