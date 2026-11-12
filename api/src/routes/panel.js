@@ -3,6 +3,7 @@ import { rateLimit } from 'express-rate-limit';
 import { z } from 'zod';
 import { requireSuperAdmin } from '../auth/panel.js';
 import { panelLogRoutes } from '../activity.js';
+import { alertRoutes, raiseAlert } from '../alerts.js';
 import { importRoutes } from '../import.js';
 import { cnicReady } from '../cnic.js';
 import { chargeRoutes } from '../charges.js';
@@ -42,6 +43,7 @@ adminManageRoutes(router);
 moneyRoutes(router);
 panelLogRoutes(router);
 importRoutes(router);
+alertRoutes(router);
 
 const exportLimit = rateLimit({
   windowMs: 60 * 60 * 1000,
@@ -60,6 +62,7 @@ router.get('/export', exportLimit, async (req, res) => {
   if (ispId && stats.isps === 0) return res.status(404).json({ error: 'not_found' });
 
   await logActivity(req.admin, 'export_customers', { scope: ispId ?? 'all', ip: req.ip, cnic_key: cnicReady, ...stats });
+  if (!ispId) raiseAlert('export_all', `All customers exported: ${stats.isps} ISPs, ${stats.customers} customers.`);
 
   res.set({
     'Content-Type': 'text/plain; charset=utf-8',

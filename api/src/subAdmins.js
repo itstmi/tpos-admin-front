@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { db } from './db.js';
+import { raiseAlert } from './alerts.js';
 import { logActivity } from './logs.js';
 import { generatePassword } from './passwordGen.js';
 import { hashPassword } from './passwords.js';
@@ -69,6 +70,7 @@ export function adminManageRoutes(router) {
     await logActivity(req.admin, 'sub_admin_create', {
       sub_admin_id: result.sub_admin_id, username: b.username, city: b.city, tpos_amount: b.tpos_amount, trial_limit: b.trial_limit,
     });
+    raiseAlert('sub_admin_create', `New sub admin created: ${b.name} (${b.username}).`);
     res.status(201).json({ sub_admin_id: result.sub_admin_id });
   });
 
@@ -99,6 +101,7 @@ export function adminManageRoutes(router) {
     // Old logins end; the sub admin signs in again with the new password
     await db.remove('admin_sessions', { admin_id: `eq.${id}` });
     await logActivity(req.admin, 'sub_admin_password_reset', { sub_admin_id: id });
+    raiseAlert('sub_admin_password_reset', `Password reset for sub admin ${rows[0].name}.`);
     res.json({ ok: true });
   });
 

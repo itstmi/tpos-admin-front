@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import { z } from 'zod';
 import { db } from '../db.js';
+import { raiseAlert } from '../alerts.js';
 import { logActivity } from '../logs.js';
 import { fakeVerify, hashPassword, verifyPassword } from '../passwords.js';
 import { newToken } from '../tokens.js';
@@ -77,6 +78,10 @@ router.post('/login', loginLimit, async (req, res) => {
   if (!check.ok) {
     addFailure(username);
     if (admin) await logActivity(admin, 'login_failed', { ip: req.ip });
+    if (isLocked(username)) {
+      const shown = String(username).replace(/[^\w.@-]/g, '').slice(0, 50);
+      raiseAlert('login_lock', `Sub admin login locked for 15 minutes after ${LOCK_AFTER} wrong passwords. Username: ${shown || '-'}, IP: ${req.ip}.`);
+    }
     return res.status(401).json({ error: 'invalid_login' });
   }
   failures.delete(username);

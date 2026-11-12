@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import { noteServerError } from './alerts.js';
 import { config } from './config.js';
 import appRoutes from './routes/app.js';
 import panelRoutes from './routes/panel.js';
@@ -32,6 +33,7 @@ app.use((err, req, res, next) => {
     return res.status(400).json({ error: 'invalid_input' });
   }
   console.error(`${req.method} ${req.path} ${err.message}`);
+  noteServerError(err);
   res.status(500).json({ error: 'server_error' });
 });
 
