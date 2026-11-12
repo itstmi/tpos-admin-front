@@ -120,7 +120,7 @@ try {
   await db.remove('admin_sessions', { admin_id: `eq.${admin.id}` });
   await db.remove('activity_logs', { user_id: `eq.${admin.id}` });
   await db.remove('admins', { id: `eq.${admin.id}` });
-  const left = await db.select('isp_accounts', { select: 'id', business_name: 'in.(T84 Test Net,T84 Super Trial)' });
+  const left = await db.select('isp_accounts', { select: 'id', business_name: 'in.("T84 Test Net","T84 Super Trial")' });
   const gone = await db.select('admins', { select: 'id', username: `eq.${USERNAME}` });
   console.log(left.length === 0 && gone.length === 0 ? 'CLEANUP OK' : 'CLEANUP CHECK FAILED');
 }
