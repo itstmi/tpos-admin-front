@@ -32,8 +32,8 @@ const step = (name, ok) => console.log(`${ok ? 'PASS' : 'FAIL'} ${name}`);
 const n = (v) => Number(v ?? 0);
 
 const CHARGE_COLS = 'id,isp_id,status,paid_at,marked_by,approved_by,approved_at,collected_by,collected_at';
-const [charge] = await db.select('isp_charges_history', { select: `${CHARGE_COLS},amount,tpos_amount`, status: 'eq.pending', order: 'created_at.desc', limit: '1' });
-if (!charge) throw new Error('no pending charge to test with');
+const [charge] = await db.select('isp_charges_history', { select: `${CHARGE_COLS},amount,tpos_amount`, status: 'eq.pending', amount: 'gt.1', tpos_amount: 'gt.1', order: 'created_at.desc', limit: '1' });
+if (!charge) throw new Error('no pending charge with an amount to test with');
 const [isp] = await db.select('isp_accounts', { select: 'id,created_by,status,subscription_expiry', id: `eq.${charge.isp_id}` });
 const [superAdmin] = await db.select('admins', { select: 'id', role: 'eq.super_admin', limit: '1' });
 
