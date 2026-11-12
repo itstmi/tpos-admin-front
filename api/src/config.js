@@ -18,4 +18,6 @@ export const config = Object.freeze({
   cfTeamDomain: cfTeamDomain.replace(/\/$/, ''),
   cfAud,
   panelReady: Boolean(cfTeamDomain && cfAud),
+  wahaUrl: (process.env.WAHA_URL || 'http://127.0.0.1:3001').replace(/\/$/, ''),
+  wahaKey: process.env.WAHA_API_KEY || '',
 });

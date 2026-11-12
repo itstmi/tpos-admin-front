@@ -3,10 +3,12 @@ import { rateLimit } from 'express-rate-limit';
 import { z } from 'zod';
 import { requireSuperAdmin } from '../auth/panel.js';
 import { cnicReady } from '../cnic.js';
+import { chargeRoutes } from '../charges.js';
 import { controlRoutes } from '../controls.js';
 import { collectExport, pkToday } from '../export.js';
 import { ispRoutes } from '../isps.js';
 import { logActivity } from '../logs.js';
+import { whatsappRoutes } from '../whatsapp.js';
 
 const router = Router();
 
@@ -26,6 +28,8 @@ router.get('/me', (req, res) => {
 
 ispRoutes(router);
 controlRoutes(router, { superAdmin: true });
+chargeRoutes(router, { superAdmin: true });
+whatsappRoutes(router, { logActivity });
 
 const exportLimit = rateLimit({
   windowMs: 60 * 60 * 1000,
