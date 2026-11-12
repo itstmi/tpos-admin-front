@@ -8,6 +8,7 @@ import { controlRoutes } from '../controls.js';
 import { collectExport, pkToday } from '../export.js';
 import { subAdminRoutes } from '../handovers.js';
 import { superIspRoutes } from '../ispCreate.js';
+import { moneyRoutes } from '../money.js';
 import { adminManageRoutes } from '../subAdmins.js';
 import { ispRoutes } from '../isps.js';
 import { logActivity } from '../logs.js';
@@ -36,6 +37,7 @@ whatsappRoutes(router, { logActivity });
 subAdminRoutes(router);
 superIspRoutes(router);
 adminManageRoutes(router);
+moneyRoutes(router);
 
 const exportLimit = rateLimit({
   windowMs: 60 * 60 * 1000,
