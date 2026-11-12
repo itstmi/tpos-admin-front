@@ -79,7 +79,7 @@ ss -ltn | grep ":$PORT " || { echo "not listening"; exit 1; }
 set -a; . "$ENV_FILE"; set +a
 code() { curl -s -o /dev/null -w '%{http_code}' "$@"; }
 echo "wrong host:        $(code -H 'Host: x.tpos.pk' http://127.0.0.1:$PORT/api/app/me) (want 404)"
-echo "panel, no CF yet:  $(code -H "Host: $PANEL_HOST" http://127.0.0.1:$PORT/api/panel/me) (want 503)"
+echo "panel, no token:   $(code -H "Host: $PANEL_HOST" http://127.0.0.1:$PORT/api/panel/me) (want 401, 503 before CF)"
 echo "app, no key:       $(code -H "Host: $APP_HOST" http://127.0.0.1:$PORT/api/app/me) (want 404)"
 echo "app, key no token: $(code -H "Host: $APP_HOST" -H "X-App-Key: $APP_CLIENT_KEY" http://127.0.0.1:$PORT/api/app/me) (want 401)"
 echo "login, bad input:  $(code -H "Host: $APP_HOST" -H "X-App-Key: $APP_CLIENT_KEY" -H 'Content-Type: application/json' -d '{}' http://127.0.0.1:$PORT/api/app/login) (want 400)"
