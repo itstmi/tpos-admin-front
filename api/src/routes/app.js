@@ -8,6 +8,7 @@ import { newToken } from '../tokens.js';
 import { requireAppKey, requireSubAdmin, sessionExpiry } from '../auth/app.js';
 import { chargeRoutes } from '../charges.js';
 import { controlRoutes } from '../controls.js';
+import { myAccountRoutes } from '../handovers.js';
 import { ispRoutes } from '../isps.js';
 
 const router = Router();
@@ -121,5 +122,6 @@ router.post('/logout', async (req, res) => {
 ispRoutes(router, { createdBy: (req) => req.admin.id });
 controlRoutes(router, { createdBy: (req) => req.admin.id });
 chargeRoutes(router, { createdBy: (req) => req.admin.id });
+myAccountRoutes(router);
 
 export default router;
