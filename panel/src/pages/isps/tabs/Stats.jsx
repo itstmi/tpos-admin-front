@@ -1,5 +1,6 @@
 import { CalendarDays, CheckCircle2, MessageCircle, Send, UserCheck, UserX, Users, Wallet, XCircle } from 'lucide-react';
 import { StatCard } from '../../../components/ui';
+import Export from './Export';
 import { count, money } from '../../../format';
 
 export const Customers = ({ isp }) => (
@@ -24,5 +25,22 @@ export const WhatsApp = ({ isp }) => (
     <StatCard icon={MessageCircle} label="Sent total" value={count(isp.wa_sent_total)} tone="blue" />
     <StatCard icon={XCircle} label="Failed today" value={count(isp.wa_failed_today)} tone="amber" />
     <StatCard icon={XCircle} label="Failed total" value={count(isp.wa_failed_total)} tone="red" />
+  </div>
+);
+
+const Section = ({ title, children }) => (
+  <div className="space-y-3">
+    <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">{title}</h4>
+    {children}
+  </div>
+);
+
+// Customers, Collection and WhatsApp numbers on one tab, export at the end
+export const Overview = ({ isp, ispId }) => (
+  <div className="space-y-6">
+    <Section title="Customers"><Customers isp={isp} /></Section>
+    <Section title="Collection"><Collection isp={isp} /></Section>
+    <Section title="WhatsApp"><WhatsApp isp={isp} /></Section>
+    <Section title="Export"><Export isp={isp} ispId={ispId} /></Section>
   </div>
 );

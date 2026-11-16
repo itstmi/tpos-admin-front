@@ -62,7 +62,7 @@ const NewSubAdmin = () => {
   };
 
   return (
-    <form onSubmit={submit} className="max-w-3xl">
+    <form onSubmit={submit} className="max-w-5xl">
       <Card className="p-6 space-y-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-violet-50 rounded-xl flex items-center justify-center">
@@ -74,12 +74,15 @@ const NewSubAdmin = () => {
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Field label="Name" bad={show('name')} hint="2 to 100 letters">
             <input value={f.name} maxLength={100} onChange={set('name')} className={inputClass} />
           </Field>
           <Field label="Username" bad={show('username')} hint="3 to 64: letters, numbers, . _ @ -">
             <input value={f.username} maxLength={64} autoComplete="off" onChange={set('username')} className={inputClass} />
+          </Field>
+          <Field label="Password" bad={show('password')} hint="Password does not meet the rule">
+            <PasswordInput value={f.password} onChange={(password) => setF((s) => ({ ...s, password }))} />
           </Field>
           <Field label="City" bad={show('city')} hint="2 to 60 letters">
             <input value={f.city} maxLength={60} onChange={set('city')} className={inputClass} />
@@ -91,10 +94,6 @@ const NewSubAdmin = () => {
             <input type="number" min="0" max="1000" value={f.trial_limit} onChange={set('trial_limit')} className={inputClass} />
           </Field>
         </div>
-
-        <Field label="Password" bad={show('password')} hint="Password does not meet the rule">
-          <PasswordInput value={f.password} onChange={(password) => setF((s) => ({ ...s, password }))} />
-        </Field>
 
         <Button type="submit" busy={busy}>Create Sub Admin</Button>
       </Card>

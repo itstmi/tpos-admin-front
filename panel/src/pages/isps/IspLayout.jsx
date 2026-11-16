@@ -4,15 +4,12 @@ import { ArrowLeft } from 'lucide-react';
 import { api } from '../../api';
 import { Card, ErrorBox, Loaded, StatusBadge, useLoad } from '../../components/ui';
 import { isUuid, withSlugs } from './slug';
-import { Activity, Bills, Collection, Controls, Customers, Export, Import, WhatsApp } from './tabs';
+import { Activity, Bills, Controls, Import, Overview } from './tabs';
 
 // ISP sub pages; Activity stays last
 const TABS = [
-  { path: 'customers', label: 'Customers', element: Customers },
-  { path: 'collection', label: 'Collection', element: Collection },
-  { path: 'whatsapp', label: 'WhatsApp', element: WhatsApp },
+  { path: 'overview', label: 'Overview', element: Overview },
   { path: 'bills', label: 'Bills', element: Bills },
-  { path: 'export', label: 'Export', element: Export },
   { path: 'import', label: 'Import', element: Import },
   { path: 'controls', label: 'Controls', element: Controls },
   { path: 'activity', label: 'Activity', element: Activity },
@@ -69,9 +66,9 @@ const Isp = ({ isp, reloadIsp }) => {
 
       <Routes>
         {TABS.map((t) => (
-          <Route key={t.path} path={t.path} element={<t.element isp={isp} ispId={id} reloadIsp={reloadIsp} />} />
+          <Route key={t.path} path={t.path} element={<t.element isp={isp} ispId={id} reloadIsp={reloadIsp} ispSlug={isp.slug} />} />
         ))}
-        <Route path="*" element={<Navigate to="customers" replace />} />
+        <Route path="*" element={<Navigate to="overview" replace />} />
       </Routes>
     </>
   );

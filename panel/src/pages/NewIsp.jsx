@@ -70,7 +70,7 @@ const NewIsp = () => {
   };
 
   return (
-    <form onSubmit={submit} className="max-w-3xl">
+    <form onSubmit={submit} className="max-w-6xl">
       <Card className="p-6 space-y-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
@@ -82,7 +82,7 @@ const NewIsp = () => {
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Field label="Business name" bad={show('business_name')} hint="2 to 100 letters">
             <input value={f.business_name} maxLength={100} onChange={set('business_name')} className={inputClass} />
           </Field>
@@ -104,21 +104,25 @@ const NewIsp = () => {
           <Field label="TPOS amount (Rs.)" bad={show('tpos_amount')} hint="0 or more, not above monthly charges">
             <input type="number" min="0" value={f.tpos_amount} onChange={set('tpos_amount')} className={inputClass} />
           </Field>
-        </div>
-
-        <div className="flex flex-wrap items-end gap-4 p-4 rounded-xl bg-slate-50">
-          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-            <input type="checkbox" checked={f.trial} onChange={set('trial')} className="w-4 h-4 accent-emerald-500" />
-            Start on trial
-          </label>
-          {f.trial && (
-            <Field label="Trial days" bad={show('trial_days')} hint="1 to 365">
-              <input type="number" min="1" max="365" value={f.trial_days} onChange={set('trial_days')} className={`${inputClass} w-32`} />
-            </Field>
-          )}
-          <p className="text-xs text-slate-500 flex-1 min-w-48">
-            {f.trial ? 'No bill during trial. When it ends the ISP is blocked until made paid or extended.' : 'Paid: billing starts today.'}
-          </p>
+          <Field label="Trial" bad={show('trial_days')} hint="1 to 365 days">
+            <div className="flex items-center gap-2">
+              <label className="flex items-center gap-2 px-3 py-2.5 border-2 border-slate-200 rounded-xl cursor-pointer text-slate-800 flex-shrink-0">
+                <input type="checkbox" checked={f.trial} onChange={set('trial')} className="w-4 h-4 accent-emerald-500" />
+                <span className="text-sm">On</span>
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="365"
+                value={f.trial_days}
+                disabled={!f.trial}
+                onChange={set('trial_days')}
+                className={`${inputClass} disabled:opacity-40`}
+                title="Trial days"
+              />
+              <span className="text-sm text-slate-500">days</span>
+            </div>
+          </Field>
         </div>
 
         <Button type="submit" busy={busy}>Create ISP</Button>

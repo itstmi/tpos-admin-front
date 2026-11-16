@@ -4,6 +4,7 @@ import { api } from '../../api';
 import DateRange, { monthStart, pkToday } from '../../components/DateRange';
 import { Card, Loaded, StatCard, useLoad } from '../../components/ui';
 import { count, money } from '../../format';
+import CollectionList from './CollectionList';
 
 // TPOS share only: bills TPOS collected itself + handovers from sub admins - expenses
 const Report = () => {
@@ -49,6 +50,7 @@ const Report = () => {
                 </table>
               )}
             </Card>
+            <CollectionList key={`${range.start}|${range.end}`} range={range} subAdmins={r.subAdmins.filter((s) => s.subAdminId)} />
           </>
         )}
       </Loaded>

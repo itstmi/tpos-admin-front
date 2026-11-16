@@ -65,7 +65,7 @@ const List = ({ isps: rows, search, setSearch, filter, setFilter }) => {
       <Card className="divide-y divide-slate-100">
         {shown.length === 0 && <p className="p-8 text-center text-slate-500">No ISP found.</p>}
         {shown.map((i) => (
-          <Link key={i.isp_id} to={`/isps/${i.slug}/customers`} className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors">
+          <Link key={i.isp_id} to={`/isps/${i.slug}/overview`} className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors">
             <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
               {i.business_name?.charAt(0) || '?'}
             </div>

@@ -133,6 +133,9 @@ const MESSAGES = {
   whatsapp_unavailable: 'WhatsApp server is not reachable right now.',
   not_started: 'WhatsApp is not started yet. Press Connect.',
   no_alert_phone: 'Save an alert number first.',
+  NAME_MISMATCH: 'The name does not match the ISP name.',
+  UNSETTLED: 'This ISP has bills waiting approval or not yet handed over by a sub admin. Settle them first.',
+  WHATSAPP_ON: 'Turn off WhatsApp for this ISP first, wait 10 minutes, then delete.',
 };
 
 export function errorText(err) {
@@ -155,6 +158,7 @@ export const api = {
   setControl: (ispId, control, enabled) => post(`/isps/${id(ispId)}/controls`, { control, enabled }),
   setBlock: (ispId, blocked) => post(`/isps/${id(ispId)}/block`, { blocked }),
   makePaid: (ispId) => post(`/isps/${id(ispId)}/make-paid`),
+  deleteIsp: (ispId, confirmName) => post(`/isps/${id(ispId)}/delete`, { confirm_name: confirmName }),
   extendTrial: (ispId, days) => post(`/isps/${id(ispId)}/extend-trial`, { days }),
   ispAreas: (ispId) => get(`/isps/${id(ispId)}/areas`),
   importCustomers: (ispId, areaId, customers) => post(`/isps/${id(ispId)}/import`, { area_id: areaId || null, customers }),
@@ -177,6 +181,7 @@ export const api = {
   deleteSubAdmin: (subId) => send('DELETE', `/admins/${id(subId)}`),
 
   report: (start, end) => get(`/report${query({ start, end })}`),
+  collections: (start, end, by, page) => get(`/collections${query({ start, end, by, page })}`),
   expenses: (start, end, page) => get(`/expenses${query({ start, end, page })}`),
   addExpense: (body) => post('/expenses', body),
   deleteExpense: (expenseId) => send('DELETE', `/expenses/${id(expenseId)}`),

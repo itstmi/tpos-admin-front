@@ -8,7 +8,6 @@ import TabPage from './components/TabPage';
 import { HOME } from './menu';
 import Approvals from './pages/Approvals';
 import Dashboard from './pages/Dashboard';
-import ExportAll from './pages/ExportAll';
 import Login from './pages/Login';
 import NewIsp from './pages/NewIsp';
 import IspLayout from './pages/isps/IspLayout';
@@ -16,7 +15,6 @@ import IspList from './pages/isps/IspList';
 import { StaffLogs } from './pages/logs/Logs';
 import Expenses from './pages/money/Expenses';
 import Report from './pages/money/Report';
-import Alerts from './pages/settings/Alerts';
 import Password from './pages/settings/Password';
 import WhatsApp from './pages/settings/WhatsApp';
 import NewSubAdmin from './pages/subadmins/NewSubAdmin';
@@ -30,10 +28,8 @@ const REPORT_TABS = [
 
 const SETTING_TABS = [
   { path: 'whatsapp', label: 'TPOS WhatsApp', element: WhatsApp },
-  { path: 'alerts', label: 'Alerts', element: Alerts },
   { path: 'password', label: 'Password', element: Password },
   { path: 'activity', label: 'Activity Logs', element: StaffLogs },
-  { path: 'export', label: 'Export All', element: ExportAll },
 ];
 
 const Centered = ({ children }) => (

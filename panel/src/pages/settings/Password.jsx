@@ -2,6 +2,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Check, Eye, EyeOff, KeyRound, Loader2 } from 'lucide-react';
 import { api, errorText } from '../../api';
+import ExportAll from '../ExportAll';
 
 // Same rule the server checks: at least 15, with upper, lower, a number and a special character
 const RULES = [
@@ -56,7 +57,7 @@ const Password = () => {
   };
 
   return (
-    <div className="max-w-xl">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
       <form onSubmit={save} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
@@ -99,6 +100,7 @@ const Password = () => {
           {saving ? 'Saving...' : 'Change Password'}
         </button>
       </form>
+      <ExportAll />
     </div>
   );
 };

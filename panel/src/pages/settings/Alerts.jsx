@@ -47,7 +47,7 @@ const Form = ({ data, setData }) => {
   };
 
   return (
-    <Card className="p-6 max-w-xl space-y-5">
+    <Card className="p-6 space-y-5">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
           <BellRing size={20} className="text-amber-600" />

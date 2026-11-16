@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { api, errorText } from '../../../api';
 import ConfirmButton from '../../../components/ConfirmButton';
@@ -31,10 +32,12 @@ const CardShell = ({ title, state, tone, note, children }) => (
   </Card>
 );
 
-const Controls = ({ ispId, reloadIsp }) => {
+const Controls = ({ isp, ispId, reloadIsp }) => {
   const state = useLoad(() => api.ispControls(ispId).then((d) => d.controls), [ispId]);
   const [busy, setBusy] = useState(null);
   const [days, setDays] = useState('7');
+  const [confirmName, setConfirmName] = useState('');
+  const navigate = useNavigate();
 
   // Each card saves only its own change; the answer holds the fresh controls
   const save = async (key, call, after) => {
@@ -116,6 +119,18 @@ const Controls = ({ ispId, reloadIsp }) => {
                 </div>
               </CardShell>
             )}
+
+            <CardShell title="Delete ISP" state="Permanent" tone="red" note={`Customers, bills and users go with it. Type ${isp.business_name} to confirm.`}>
+              <input value={confirmName} maxLength={100} onChange={(e) => setConfirmName(e.target.value)} placeholder="ISP name" className={inputClass} />
+              <ConfirmButton
+                tone="red"
+                busy={busy === 'delete'}
+                disabled={confirmName.trim() !== (isp.business_name || '').trim()}
+                onConfirm={() => save('delete', () => api.deleteIsp(ispId, confirmName.trim()), () => navigate('/isps', { replace: true }))}
+              >
+                Delete
+              </ConfirmButton>
+            </CardShell>
           </div>
         );
       }}
