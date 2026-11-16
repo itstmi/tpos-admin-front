@@ -63,6 +63,43 @@ function get(path) {
 
 const post = (path, body) => send('POST', path, body);
 
+const id = (value) => encodeURIComponent(value);
+
+function query(params) {
+  const q = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== undefined && v !== null && v !== '') q.set(k, String(v));
+  }
+  const s = q.toString();
+  return s ? `?${s}` : '';
+}
+
+// Text file downloads (customer export). The browser saves it under the name the server gives.
+async function download(path) {
+  let res;
+  try {
+    res = await fetch(`/api/panel${path}`, { credentials: 'same-origin', redirect: 'manual' });
+  } catch {
+    throw new ApiError(0, 'network');
+  }
+  if (res.type === 'opaqueredirect' || res.status === 0) throw new ApiError(0, 'access_expired');
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    const code = data?.error || 'server_error';
+    if (res.status === 401 && code === 'login_required') loginListeners.forEach((fn) => fn());
+    throw new ApiError(res.status, code, data);
+  }
+  const name = /filename="([^"]+)"/.exec(res.headers.get('content-disposition') || '')?.[1] || 'export.txt';
+  const url = URL.createObjectURL(await res.blob());
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 const MESSAGES = {
   network: 'Could not reach the server. Check the internet and try again.',
   access_expired: 'Your email sign-in has expired. Reload the page and sign in again.',
@@ -77,6 +114,13 @@ const MESSAGES = {
   forbidden: 'You are not allowed to do this.',
   not_found: 'Not found.',
   server_error: 'Something went wrong on the server. Please try again shortly.',
+  bad_state: 'This bill has already changed. The list is refreshed.',
+  trial_ended: 'Trial has ended. Make it paid or extend the trial to open it.',
+  NOT_TRIAL: 'This ISP is not on trial.',
+  NOT_FOUND: 'Not found.',
+  NOT_ALLOWED: 'You are not allowed to do this.',
+  INVALID_INPUT: 'Some of the details are not valid.',
+  invalid_area: 'This area does not belong to the ISP.',
 };
 
 export function errorText(err) {
@@ -88,4 +132,20 @@ export const api = {
   login: (username, password) => post('/login', { username, password }),
   logout: () => post('/logout'),
   changePassword: (current, password) => post('/password', { current, password }),
+
+  isps: () => get('/isps'),
+  isp: (ispId) => get(`/isps/${id(ispId)}`),
+  ispCharges: (ispId) => get(`/isps/${id(ispId)}/charges`),
+  chargePaid: (chargeId) => post(`/charges/${id(chargeId)}/paid`),
+  chargeApprove: (chargeId) => post(`/charges/${id(chargeId)}/approve`),
+  chargeReject: (chargeId) => post(`/charges/${id(chargeId)}/reject`),
+  ispControls: (ispId) => get(`/isps/${id(ispId)}/controls`),
+  setControl: (ispId, control, enabled) => post(`/isps/${id(ispId)}/controls`, { control, enabled }),
+  setBlock: (ispId, blocked) => post(`/isps/${id(ispId)}/block`, { blocked }),
+  makePaid: (ispId) => post(`/isps/${id(ispId)}/make-paid`),
+  extendTrial: (ispId, days) => post(`/isps/${id(ispId)}/extend-trial`, { days }),
+  ispAreas: (ispId) => get(`/isps/${id(ispId)}/areas`),
+  importCustomers: (ispId, areaId, customers) => post(`/isps/${id(ispId)}/import`, { area_id: areaId || null, customers }),
+  ispActivity: (ispId, { user, search, page }) => get(`/isps/${id(ispId)}/activity${query({ user, search, page })}`),
+  exportCustomers: (ispId) => download(`/export${query({ isp: ispId })}`),
 };

@@ -6,6 +6,8 @@ import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout';
 import { HOME } from './menu';
 import Login from './pages/Login';
+import IspLayout from './pages/isps/IspLayout';
+import IspList from './pages/isps/IspList';
 import Password from './pages/settings/Password';
 
 const Centered = ({ children }) => (
@@ -38,6 +40,8 @@ const Shell = () => {
   return (
     <Layout>
       <Routes>
+        <Route path="/isps" element={<IspList />} />
+        <Route path="/isps/:id/*" element={<IspLayout />} />
         <Route path="/settings/password" element={<Password />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
       </Routes>

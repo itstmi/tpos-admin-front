@@ -35,7 +35,7 @@
 
 /* 3. CSS transform fallback, sidebar left-based fallback */
 @supports not (transform: translateX(0)) {
-  /* Large screen — sidebar always visible */
+  /* Large screen, sidebar always visible */
   @media (min-width: 1024px) {
     aside {
       left: 0 !important;
@@ -43,7 +43,7 @@
   }
 }
 
-/* 4. Scrollable tabs — horizontal scroll on small screens */
+/* 4. Scrollable tabs, horizontal scroll on small screens */
 .tabs-scroll {
   display: flex;
   flex-wrap: nowrap;
@@ -61,7 +61,7 @@
   flex-shrink: 0;
 }
 
-/* 5. CSS Grid fallback — 2-column layout */
+/* 5. CSS Grid fallback, 2-column layout */
 @supports not (display: grid) {
   .grid {
     display: -ms-flexbox !important;
