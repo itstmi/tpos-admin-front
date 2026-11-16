@@ -1,6 +1,7 @@
 // TPOS's own WhatsApp session, same steps as an ISP session on the backend (whatsapp.service.js).
 // WAHA is reached through the local tunnel (wa-tunnel-1). Not stored in whatsapp_sessions (that table is per ISP).
 import { config } from './config.js';
+import { db } from './db.js';
 
 const SESSION = 'tpos_admin';
 const TIMEOUT_MS = 20000;
@@ -116,6 +117,32 @@ export async function sendTposMessage(phone, text) {
   await json('POST', '/api/sendText', { session: SESSION, chatId, text });
 }
 
+// Sends and keeps a record (tpos_messages: who, kind, result, reason; not the text).
+// A failed record never stops the message; a failed message is still thrown to the caller.
+export async function sendTposRecorded(phone, text, { type, toName = null, ispId = null }) {
+  let failure = null;
+  try {
+    await sendTposMessage(phone, text);
+  } catch (err) {
+    failure = err;
+  }
+  if (/^03[0-9]{9}$/.test(phone || '')) {
+    try {
+      await db.insert('tpos_messages', {
+        phone,
+        to_name: toName ? String(toName).slice(0, 120) : null,
+        isp_id: ispId,
+        message_type: type,
+        status: failure ? 'failed' : 'sent',
+        error_log: failure ? `${failure.message}${failure.status ? ` (${failure.status})` : ''}`.slice(0, 300) : null,
+      });
+    } catch (err) {
+      console.error(`tpos message record failed: ${err.message}`);
+    }
+  }
+  if (failure) throw failure;
+}
+
 function logError(what, err) {
   console.error(`whatsapp ${what} failed`, err.code || err.status || err.message, err.detail || '');
 }
@@ -137,6 +164,18 @@ export async function tposWhatsappStatus() {
 export function whatsappRoutes(router, { logActivity }) {
   router.get('/whatsapp/status', async (req, res) => {
     res.json(await tposWhatsappStatus());
+  });
+
+  // Message History of TPOS's own WhatsApp (10 per page, search by number or name)
+  router.get('/whatsapp/messages', async (req, res) => {
+    const search = typeof req.query.search === 'string' ? req.query.search : '';
+    const page = req.query.page === undefined ? 1 : Number(req.query.page);
+    if (search.length > 60 || !Number.isInteger(page) || page < 1 || page > 100000) {
+      return res.status(400).json({ error: 'invalid_input' });
+    }
+    const result = await db.rpc('admin_tpos_messages', { p_search: search, p_page: page });
+    if (!result) return res.status(400).json({ error: 'invalid_input' });
+    res.json(result);
   });
 
   router.post('/whatsapp/connect', async (req, res) => {

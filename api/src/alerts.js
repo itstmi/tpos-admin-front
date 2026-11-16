@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { db } from './db.js';
 import { logActivity } from './logs.js';
-import { sendTposMessage, whatsappReady } from './whatsapp.js';
+import { sendTposRecorded, whatsappReady } from './whatsapp.js';
 
 const QUIET_MS = 30 * 60 * 1000;
 const PHONE_TTL_MS = 10 * 60 * 1000;
@@ -43,7 +43,7 @@ async function deliver(kind, text) {
     return;
   }
   try {
-    await sendTposMessage(phone, `TPOS Alert: ${text} (${pkTime()} PKT)`);
+    await sendTposRecorded(phone, `TPOS Alert: ${text} (${pkTime()} PKT)`, { type: 'alert', toName: 'Alert number' });
   } catch (err) {
     console.error(`alert ${kind} not sent: ${err.message}`);
   }
@@ -95,7 +95,7 @@ export function alertRoutes(router) {
     const phone = await readPhone();
     if (!phone) return res.status(409).json({ error: 'no_alert_phone' });
     try {
-      await sendTposMessage(phone, `TPOS Alert: test message from the admin panel (${pkTime()} PKT)`);
+      await sendTposRecorded(phone, `TPOS Alert: test message from the admin panel (${pkTime()} PKT)`, { type: 'test', toName: 'Alert number' });
       res.json({ sent: true });
     } catch (err) {
       res.json({ sent: false, reason: err.message });

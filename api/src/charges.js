@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { db } from './db.js';
 import { logActivity } from './logs.js';
 import { chargeMessage } from './messages.js';
-import { sendTposMessage } from './whatsapp.js';
+import { sendTposRecorded } from './whatsapp.js';
 
 const uuid = z.uuid();
 
@@ -20,7 +20,7 @@ function showCollector(charge) {
 async function notify(result) {
   if (!/^03[0-9]{9}$/.test(result.phone || '')) return 'skipped';
   try {
-    await sendTposMessage(result.phone, chargeMessage(result));
+    await sendTposRecorded(result.phone, chargeMessage(result), { type: 'bill', toName: result.business_name, ispId: result.isp_id });
     return 'sent';
   } catch (err) {
     console.error(`whatsapp send failed: ${err.message}`);
