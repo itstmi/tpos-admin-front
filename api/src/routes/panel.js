@@ -8,6 +8,7 @@ import { alertRoutes, raiseAlert } from '../alerts.js';
 import { importRoutes } from '../import.js';
 import { cnicReady } from '../cnic.js';
 import { chargeRoutes } from '../charges.js';
+import { dashboardRoutes } from '../dashboard.js';
 import { controlRoutes } from '../controls.js';
 import { collectExport, pkToday } from '../export.js';
 import { subAdminRoutes } from '../handovers.js';
@@ -37,6 +38,7 @@ router.get('/me', (req, res) => {
   res.json({ admin: req.admin });
 });
 
+dashboardRoutes(router);
 ispRoutes(router);
 controlRoutes(router, { superAdmin: true });
 chargeRoutes(router, { superAdmin: true });

@@ -120,18 +120,23 @@ function logError(what, err) {
   console.error(`whatsapp ${what} failed`, err.code || err.status || err.message, err.detail || '');
 }
 
+// Also used by the dashboard
+export async function tposWhatsappStatus() {
+  if (!whatsappReady) return { status: 'not_configured', phone_number: null, server_reachable: null };
+  try {
+    const live = await getSession();
+    const status = live ? STATUS_MAP[live.status] || 'disconnected' : 'disconnected';
+    const phone = status === 'connected' ? await getConnectedNumber() : null;
+    return { status, phone_number: phone, server_reachable: true };
+  } catch (err) {
+    logError('status', err);
+    return { status: 'unknown', phone_number: null, server_reachable: false };
+  }
+}
+
 export function whatsappRoutes(router, { logActivity }) {
   router.get('/whatsapp/status', async (req, res) => {
-    if (!whatsappReady) return res.json({ status: 'not_configured' });
-    try {
-      const live = await getSession();
-      const status = live ? STATUS_MAP[live.status] || 'disconnected' : 'disconnected';
-      const phone = status === 'connected' ? await getConnectedNumber() : null;
-      res.json({ status, phone_number: phone, server_reachable: true });
-    } catch (err) {
-      logError('status', err);
-      res.json({ status: 'unknown', phone_number: null, server_reachable: false });
-    }
+    res.json(await tposWhatsappStatus());
   });
 
   router.post('/whatsapp/connect', async (req, res) => {
