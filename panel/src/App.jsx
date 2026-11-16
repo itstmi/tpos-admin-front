@@ -13,7 +13,7 @@ import Login from './pages/Login';
 import NewIsp from './pages/NewIsp';
 import IspLayout from './pages/isps/IspLayout';
 import IspList from './pages/isps/IspList';
-import { LoginLogs, StaffLogs } from './pages/logs/Logs';
+import { StaffLogs } from './pages/logs/Logs';
 import Expenses from './pages/money/Expenses';
 import Report from './pages/money/Report';
 import Alerts from './pages/settings/Alerts';
@@ -28,15 +28,11 @@ const REPORT_TABS = [
   { path: 'expenses', label: 'Expenses', element: Expenses },
 ];
 
-const LOG_TABS = [
-  { path: 'logins', label: 'Login Logs', element: LoginLogs },
-  { path: 'staff', label: 'Staff Logs', element: StaffLogs },
-];
-
 const SETTING_TABS = [
   { path: 'whatsapp', label: 'TPOS WhatsApp', element: WhatsApp },
   { path: 'alerts', label: 'Alerts', element: Alerts },
   { path: 'password', label: 'Password', element: Password },
+  { path: 'activity', label: 'Activity Logs', element: StaffLogs },
   { path: 'export', label: 'Export All', element: ExportAll },
 ];
 
@@ -79,7 +75,6 @@ const Shell = () => {
         <Route path="/sub-admins/:id/*" element={<SubAdminDetail />} />
         <Route path="/new-sub-admin" element={<NewSubAdmin />} />
         <Route path="/report/*" element={<TabPage base="/report" tabs={REPORT_TABS} />} />
-        <Route path="/logs/*" element={<TabPage base="/logs" tabs={LOG_TABS} />} />
         <Route path="/settings/*" element={<TabPage base="/settings" tabs={SETTING_TABS} />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
       </Routes>

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowUpRight, Building2, Clock, MessageSquare, Smartphone, Users, Wallet, Receipt, Activity } from 'lucide-react';
+import { Activity, ArrowUpRight, Building2, Clock, MessageSquare, Receipt, Smartphone, Wallet } from 'lucide-react';
 import { api } from '../api';
 import { Loaded, useLoad } from '../components/ui';
 import { count, money } from '../format';
@@ -85,24 +85,22 @@ const Dashboard = () => {
         const month = monthLabel();
         return (
           <div className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <SmallCard label="Total ISPs" value={count(d.isps.total)} icon={Building2} gradient="from-blue-500 to-blue-600" bgLight="bg-blue-50" iconColor="text-blue-500" onClick={() => navigate('/isps')} />
               <SmallCard label="Active ISPs" value={count(d.isps.active)} icon={Activity} gradient="from-emerald-500 to-emerald-600" bgLight="bg-emerald-50" iconColor="text-emerald-500" onClick={() => navigate('/isps')} />
-              <SmallCard label="Customers" value={count(d.isps.customers)} icon={Users} gradient="from-violet-500 to-violet-600" bgLight="bg-violet-50" iconColor="text-violet-500" onClick={() => navigate('/isps')} />
-              <SmallCard label="ISP collection this month" value={money(d.isps.collected_month)} icon={Wallet} gradient="from-amber-500 to-amber-600" bgLight="bg-amber-50" iconColor="text-amber-500" onClick={() => navigate('/isps')} />
               <SmallCard label="WhatsApp Service" value={wa.service} dot={wa.dots[0]} icon={MessageSquare} gradient="from-violet-500 to-violet-600" bgLight="bg-violet-50" iconColor="text-violet-500" onClick={() => navigate('/settings/whatsapp')} />
               <SmallCard label="WhatsApp Number" value={wa.number} dot={wa.dots[1]} icon={Smartphone} gradient="from-violet-500 to-violet-600" bgLight="bg-violet-50" iconColor="text-violet-500" onClick={() => navigate('/settings/whatsapp')} />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <BigCard label="Collection Details" icon={Wallet} gradient="from-emerald-500 to-emerald-600" sub="text-emerald-100">
-                <Line title="This month (TPOS)" note={month} value={money(d.collection.tpos_direct)} sub="text-emerald-100" onClick={() => navigate('/report/collection')} />
-                <Line title="From sub admins (handovers)" note={month} value={money(d.collection.from_sub_admins)} sub="text-emerald-100" onClick={() => navigate('/report/collection')} />
+                <Line title="This month's collection" note={month} value={money(d.collection.month_total)} sub="text-emerald-100" onClick={() => navigate('/report/collection')} />
+                <Line title="Received in handovers" note={month} value={money(d.collection.from_sub_admins)} sub="text-emerald-100" onClick={() => navigate('/report/collection')} />
               </BigCard>
 
               <BigCard label="Pending Details" icon={Clock} gradient="from-amber-500 to-amber-600" sub="text-amber-100">
-                <Line title="TPOS ISPs, unpaid bills" note={`${count(d.pending.own_bills)} bills`} value={money(d.pending.own_amount)} sub="text-amber-100" />
-                <Line title="Due from sub admins" note="with older" value={money(d.pending.sub_admins_due)} sub="text-amber-100" onClick={() => navigate('/sub-admins')} />
+                <Line title="Pending amount" note={`${count(d.pending.own_bills)} ISP bills`} value={money(d.pending.own_amount)} sub="text-amber-100" />
+                <Line title="Pending from sub admins" note={`${count(d.pending.sub_admins_bills)} bills + older`} value={money(d.pending.sub_admins_due)} sub="text-amber-100" onClick={() => navigate('/sub-admins')} />
               </BigCard>
 
               <BigCard label="Customer Alerts" icon={MessageSquare} gradient="from-violet-500 to-violet-600" sub="text-violet-100" onClick={() => navigate('/settings/whatsapp')}>
@@ -128,7 +126,7 @@ const Dashboard = () => {
 
               <BigCard label="Expenses & Handover" icon={Receipt} gradient="from-cyan-500 to-cyan-600" sub="text-cyan-100">
                 <Line title="This month's expenses" note={month} value={money(d.money.expenses)} sub="text-cyan-100" onClick={() => navigate('/report/expenses')} />
-                <Line title="Sub admin collections this month" note="TPOS share" value={money(d.money.sub_admin_share)} sub="text-cyan-100" onClick={() => navigate('/sub-admins')} />
+                <Line title="Pending handover" note={`${count(d.money.pending_handover_bills)} bills, ${month}`} value={money(d.money.pending_handover)} sub="text-cyan-100" onClick={() => navigate('/sub-admins')} />
               </BigCard>
             </div>
           </div>

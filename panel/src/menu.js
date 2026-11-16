@@ -1,4 +1,4 @@
-import { Building2, CheckSquare, FileText, LayoutDashboard, ScrollText, Settings, Users } from 'lucide-react';
+import { Building2, CheckSquare, FileText, LayoutDashboard, Settings, Users } from 'lucide-react';
 
 // Sidebar: one item per page. Sub menus live inside each page as tabs.
 export const MENU = [
@@ -7,7 +7,6 @@ export const MENU = [
   { path: '/approvals', label: 'Approvals', icon: CheckSquare },
   { path: '/sub-admins', label: 'Sub Admins', icon: Users, also: ['/new-sub-admin'] },
   { path: '/report', label: 'Report', icon: FileText },
-  { path: '/logs', label: 'Logs', icon: ScrollText },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 

@@ -181,13 +181,13 @@ export const api = {
   addExpense: (body) => post('/expenses', body),
   deleteExpense: (expenseId) => send('DELETE', `/expenses/${id(expenseId)}`),
 
-  loginLogs: (isp, page) => get(`/logs/logins${query({ isp, page })}`),
   staffLogs: (admin, page) => get(`/logs/staff${query({ admin, page })}`),
 
   whatsappStatus: () => get('/whatsapp/status'),
   whatsappConnect: () => post('/whatsapp/connect'),
   whatsappQr: () => get('/whatsapp/qr'),
   whatsappDisconnect: () => post('/whatsapp/disconnect'),
+  whatsappMessages: (search, page) => get(`/whatsapp/messages${query({ search, page })}`),
 
   alerts: () => get('/alerts'),
   setAlertPhone: (phone) => post('/alerts/phone', { phone }),

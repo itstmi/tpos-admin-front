@@ -18,41 +18,6 @@ const ROLE = { super_admin: 'Super admin', sub_admin: 'Sub admin', isp_owner: 'O
 
 const words = (s) => String(s || '').replace(/_/g, ' ');
 
-export const LoginLogs = () => {
-  const [filter, setFilter] = useState({ isp: '', page: 1 });
-  const state = useLoad(() => api.loginLogs(filter.isp, filter.page), [filter.isp, filter.page]);
-  const [isps, openIsps] = useOptions(() => api.isps().then((d) => d.isps.map((i) => ({ id: i.isp_id, name: i.business_name })).sort((a, b) => a.name.localeCompare(b.name))));
-
-  return (
-    <Card className="p-4 space-y-4">
-      <select value={filter.isp} onFocus={openIsps} onMouseDown={openIsps} onChange={(e) => setFilter({ isp: e.target.value, page: 1 })} className={`${inputClass} sm:w-72`}>
-        <option value="">All</option>
-        {isps.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}
-      </select>
-      <Loaded state={state}>
-        {(d) => (
-          <>
-            {d.items.length === 0 && <p className="py-8 text-center text-slate-500">No logins found.</p>}
-            <ul className="divide-y divide-slate-100">
-              {d.items.map((r, n) => (
-                <li key={`${r.time}-${n}`} className="py-3 flex flex-col sm:flex-row sm:items-center gap-2">
-                  <Badge tone={r.event === 'login' ? 'emerald' : 'slate'}>{r.event === 'login' ? 'Login' : 'Logout'}</Badge>
-                  <span className="flex-1 text-sm text-slate-700">
-                    <b>{r.name}</b> · {ROLE[r.role] || words(r.role)}
-                    {r.isp_name && <> · {r.isp_name}{r.sub_admin_name ? ` (${r.sub_admin_name})` : ''}</>}
-                  </span>
-                  <span className="text-xs text-slate-500 whitespace-nowrap">{r.device === 'app' ? 'Mobile app' : 'Web'} · {r.time}</span>
-                </li>
-              ))}
-            </ul>
-            <Pager page={d.page} pages={d.pages} total={d.total} perPage={d.per_page} onPage={(page) => setFilter((f) => ({ ...f, page }))} />
-          </>
-        )}
-      </Loaded>
-    </Card>
-  );
-};
-
 export const StaffLogs = () => {
   const { admin } = useAuth();
   const [filter, setFilter] = useState({ admin: '', page: 1 });
