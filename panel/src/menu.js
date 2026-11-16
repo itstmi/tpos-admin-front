@@ -1,8 +1,16 @@
-import { Building2, KeyRound, Settings } from 'lucide-react';
+import { Building2, CheckSquare, KeyRound, List, PlusCircle, Settings } from 'lucide-react';
 
 // Sidebar menu. A group opens as a sub menu; only pages that exist are listed.
 export const MENU = [
-  { path: '/isps', label: 'ISPs', icon: Building2 },
+  {
+    label: 'ISPs',
+    icon: Building2,
+    children: [
+      { path: '/isps', label: 'All ISPs', icon: List },
+      { path: '/new-isp', label: 'New ISP', icon: PlusCircle },
+    ],
+  },
+  { path: '/approvals', label: 'Approvals', icon: CheckSquare },
   {
     label: 'Settings',
     icon: Settings,

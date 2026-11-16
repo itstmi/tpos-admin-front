@@ -9,6 +9,8 @@ import Login from './pages/Login';
 import IspLayout from './pages/isps/IspLayout';
 import IspList from './pages/isps/IspList';
 import Password from './pages/settings/Password';
+import Approvals from './pages/Approvals';
+import NewIsp from './pages/NewIsp';
 
 const Centered = ({ children }) => (
   <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-950 p-4 text-center">
@@ -42,6 +44,8 @@ const Shell = () => {
       <Routes>
         <Route path="/isps" element={<IspList />} />
         <Route path="/isps/:id/*" element={<IspLayout />} />
+        <Route path="/new-isp" element={<NewIsp />} />
+        <Route path="/approvals" element={<Approvals />} />
         <Route path="/settings/password" element={<Password />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
       </Routes>

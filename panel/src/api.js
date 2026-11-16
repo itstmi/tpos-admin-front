@@ -121,6 +121,8 @@ const MESSAGES = {
   NOT_ALLOWED: 'You are not allowed to do this.',
   INVALID_INPUT: 'Some of the details are not valid.',
   invalid_area: 'This area does not belong to the ISP.',
+  PHONE_EXISTS: 'An ISP with this phone number already exists.',
+  CHARGES_BELOW_TPOS: 'Monthly charges cannot be less than the TPOS amount.',
 };
 
 export function errorText(err) {
@@ -148,4 +150,6 @@ export const api = {
   importCustomers: (ispId, areaId, customers) => post(`/isps/${id(ispId)}/import`, { area_id: areaId || null, customers }),
   ispActivity: (ispId, { user, search, page }) => get(`/isps/${id(ispId)}/activity${query({ user, search, page })}`),
   exportCustomers: (ispId) => download(`/export${query({ isp: ispId })}`),
+  createIsp: (body) => post('/isps', body),
+  approvals: () => get('/approvals'),
 };
