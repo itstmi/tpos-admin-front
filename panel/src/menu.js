@@ -3,9 +3,9 @@ import { Building2, CheckSquare, FileText, LayoutDashboard, Settings, Users } fr
 // Sidebar: one item per page. Sub menus live inside each page as tabs.
 export const MENU = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/isps', label: 'ISPs', icon: Building2, also: ['/new-isp'] },
+  { path: '/isps', label: 'ISPs', icon: Building2 },
   { path: '/approvals', label: 'Approvals', icon: CheckSquare },
-  { path: '/sub-admins', label: 'Sub Admins', icon: Users, also: ['/new-sub-admin'] },
+  { path: '/sub-admins', label: 'Sub Admins', icon: Users },
   { path: '/report', label: 'Report', icon: FileText },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];

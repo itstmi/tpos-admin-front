@@ -57,8 +57,8 @@ const Password = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
-      <form onSubmit={save} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <form onSubmit={save} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5 h-full">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
             <KeyRound size={20} className="text-emerald-600" />

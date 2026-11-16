@@ -47,18 +47,18 @@ const Form = ({ data, setData }) => {
   };
 
   return (
-    <Card className="p-6 space-y-5">
+    <Card className="p-6 space-y-5 h-full">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
           <BellRing size={20} className="text-amber-600" />
         </div>
         <div className="flex-1">
           <h3 className="font-bold text-slate-800">Alert number</h3>
-          <p className="text-sm text-slate-500">Security alerts come here on WhatsApp. Leave empty to stop them.</p>
+          <p className="text-sm text-slate-500">Gets security alerts. Empty stops them.</p>
         </div>
-        <Badge tone={data.whatsapp_ready ? 'emerald' : 'red'}>{data.whatsapp_ready ? 'WhatsApp ready' : 'WhatsApp not set up'}</Badge>
+        <Badge tone={data.whatsapp_ready ? 'emerald' : 'red'}>{data.whatsapp_ready ? 'Ready' : 'Not set up'}</Badge>
       </div>
-      <input value={phone} maxLength={11} inputMode="numeric" onChange={(e) => setPhone(e.target.value.trim())} placeholder="03XXXXXXXXX" className={inputClass} />
+      <input value={phone} maxLength={11} inputMode="numeric" onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11))} placeholder="03XXXXXXXXX" className={`${inputClass} py-2`} />
       {!ok && <p className="text-xs text-red-500">03XXXXXXXXX or empty</p>}
       <div className="flex gap-2">
         <Button busy={busy === 'save'} disabled={!ok || !changed} onClick={save}>Save</Button>

@@ -1,8 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronRight, Plus } from 'lucide-react';
 import { api } from '../../api';
 import { Badge, Button, Card, Loaded, useLoad } from '../../components/ui';
 import { money } from '../../format';
+import NewSubAdminModal from './NewSubAdmin';
 
 // Sub admins with what each owes TPOS. The two calls go out together.
 const SubAdminList = () => {
@@ -14,12 +16,13 @@ const SubAdminList = () => {
     [],
   );
 
-  const navigate = useNavigate();
+  const [adding, setAdding] = useState(false);
 
   return (
     <div className="space-y-5">
+      {adding && <NewSubAdminModal onClose={() => setAdding(false)} />}
       <div className="flex justify-end">
-        <Button onClick={() => navigate('/new-sub-admin')}><Plus size={16} /> Add Sub Admin</Button>
+        <Button onClick={() => setAdding(true)}><Plus size={16} /> Add Sub Admin</Button>
       </div>
       <Loaded state={state}>
       {(rows) => (

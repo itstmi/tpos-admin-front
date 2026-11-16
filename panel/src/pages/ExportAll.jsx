@@ -21,7 +21,7 @@ const ExportAll = () => {
   };
 
   return (
-    <Card className="p-6 space-y-4">
+    <Card className="p-6 space-y-4 h-full">
       <div>
         <h3 className="font-bold text-slate-800">Export all customers</h3>
         <p className="text-sm text-slate-500 mt-1">

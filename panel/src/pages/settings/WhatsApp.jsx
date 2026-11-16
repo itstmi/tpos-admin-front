@@ -88,8 +88,8 @@ const WhatsApp = () => {
         const connected = s.status === 'connected';
         return (
           <div className="space-y-5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
-          <Card className="p-6 space-y-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <Card className="p-6 space-y-5 h-full">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
                 <MessageCircle size={20} className="text-emerald-600" />

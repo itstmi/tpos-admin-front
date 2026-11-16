@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ChevronRight, Plus, Search } from 'lucide-react';
 import { api } from '../../api';
 import { useAuth } from '../../context/AuthContext';
 import { Button, Card, Loaded, StatusBadge, inputClass, useLoad } from '../../components/ui';
 import { withSlugs } from './slug';
+import NewIspModal from '../NewIsp';
 import { count, date, money } from '../../format';
 
 const FILTERS = ['all', 'active', 'expired', 'blocked'];
@@ -29,7 +30,7 @@ const List = ({ isps: rows, search, setSearch, filter, setFilter }) => {
     [rows, admin],
   );
 
-  const navigate = useNavigate();
+  const [adding, setAdding] = useState(false);
 
   const shown = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -41,8 +42,9 @@ const List = ({ isps: rows, search, setSearch, filter, setFilter }) => {
 
   return (
     <div className="space-y-6">
+      {adding && <NewIspModal onClose={() => setAdding(false)} />}
       <Card className="p-4 flex flex-col sm:flex-row gap-3">
-        <Button onClick={() => navigate('/new-isp')} className="sm:order-last">
+        <Button onClick={() => setAdding(true)} className="sm:order-last">
           <Plus size={16} /> Add ISP
         </Button>
         <div className="relative flex-1">

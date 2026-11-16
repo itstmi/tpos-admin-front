@@ -9,7 +9,6 @@ import { HOME } from './menu';
 import Approvals from './pages/Approvals';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import NewIsp from './pages/NewIsp';
 import IspLayout from './pages/isps/IspLayout';
 import IspList from './pages/isps/IspList';
 import { StaffLogs } from './pages/logs/Logs';
@@ -17,7 +16,6 @@ import Expenses from './pages/money/Expenses';
 import Report from './pages/money/Report';
 import Password from './pages/settings/Password';
 import WhatsApp from './pages/settings/WhatsApp';
-import NewSubAdmin from './pages/subadmins/NewSubAdmin';
 import SubAdminDetail from './pages/subadmins/SubAdminDetail';
 import SubAdminList from './pages/subadmins/SubAdminList';
 
@@ -65,11 +63,9 @@ const Shell = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/isps" element={<IspList />} />
         <Route path="/isps/:key/*" element={<IspLayout />} />
-        <Route path="/new-isp" element={<NewIsp />} />
         <Route path="/approvals" element={<Approvals />} />
         <Route path="/sub-admins" element={<SubAdminList />} />
         <Route path="/sub-admins/:id/*" element={<SubAdminDetail />} />
-        <Route path="/new-sub-admin" element={<NewSubAdmin />} />
         <Route path="/report/*" element={<TabPage base="/report" tabs={REPORT_TABS} />} />
         <Route path="/settings/*" element={<TabPage base="/settings" tabs={SETTING_TABS} />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
