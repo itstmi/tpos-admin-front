@@ -145,8 +145,8 @@ export const api = {
   logout: () => post('/logout'),
   changePassword: (current, password) => post('/password', { current, password }),
 
+  dashboard: () => get('/dashboard'),
   isps: () => get('/isps'),
-  isp: (ispId) => get(`/isps/${id(ispId)}`),
   ispCharges: (ispId) => get(`/isps/${id(ispId)}/charges`),
   chargePaid: (chargeId) => post(`/charges/${id(chargeId)}/paid`),
   chargeApprove: (chargeId) => post(`/charges/${id(chargeId)}/approve`),

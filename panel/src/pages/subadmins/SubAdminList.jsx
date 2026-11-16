@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChevronRight, Plus } from 'lucide-react';
 import { api } from '../../api';
-import { Badge, Card, Loaded, useLoad } from '../../components/ui';
+import { Badge, Button, Card, Loaded, useLoad } from '../../components/ui';
 import { money } from '../../format';
 
 // Sub admins with what each owes TPOS. The two calls go out together.
@@ -14,8 +14,14 @@ const SubAdminList = () => {
     [],
   );
 
+  const navigate = useNavigate();
+
   return (
-    <Loaded state={state}>
+    <div className="space-y-5">
+      <div className="flex justify-end">
+        <Button onClick={() => navigate('/new-sub-admin')}><Plus size={16} /> Add Sub Admin</Button>
+      </div>
+      <Loaded state={state}>
       {(rows) => (
         <Card className="divide-y divide-slate-100">
           {rows.length === 0 && <p className="p-8 text-center text-slate-500">No sub admin yet.</p>}
@@ -41,7 +47,8 @@ const SubAdminList = () => {
           })}
         </Card>
       )}
-    </Loaded>
+      </Loaded>
+    </div>
   );
 };
 

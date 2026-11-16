@@ -32,6 +32,7 @@ export function dashboardRoutes(router) {
       },
       whatsapp,
       messages: {
+        sent_total: sum(isps, 'wa_sent_total'),
         sent_today: sum(isps, 'wa_sent_today'),
         failed_total: sum(isps, 'wa_failed_total'),
       },

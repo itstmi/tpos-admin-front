@@ -4,22 +4,41 @@ import { Loader2, RefreshCw } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout';
+import TabPage from './components/TabPage';
 import { HOME } from './menu';
+import Approvals from './pages/Approvals';
+import Dashboard from './pages/Dashboard';
+import ExportAll from './pages/ExportAll';
 import Login from './pages/Login';
+import NewIsp from './pages/NewIsp';
 import IspLayout from './pages/isps/IspLayout';
 import IspList from './pages/isps/IspList';
-import Password from './pages/settings/Password';
-import Approvals from './pages/Approvals';
-import ExportAll from './pages/ExportAll';
 import { LoginLogs, StaffLogs } from './pages/logs/Logs';
 import Expenses from './pages/money/Expenses';
 import Report from './pages/money/Report';
 import Alerts from './pages/settings/Alerts';
+import Password from './pages/settings/Password';
 import WhatsApp from './pages/settings/WhatsApp';
-import NewIsp from './pages/NewIsp';
 import NewSubAdmin from './pages/subadmins/NewSubAdmin';
 import SubAdminDetail from './pages/subadmins/SubAdminDetail';
 import SubAdminList from './pages/subadmins/SubAdminList';
+
+const REPORT_TABS = [
+  { path: 'collection', label: 'Collection', element: Report },
+  { path: 'expenses', label: 'Expenses', element: Expenses },
+];
+
+const LOG_TABS = [
+  { path: 'logins', label: 'Login Logs', element: LoginLogs },
+  { path: 'staff', label: 'Staff Logs', element: StaffLogs },
+];
+
+const SETTING_TABS = [
+  { path: 'whatsapp', label: 'TPOS WhatsApp', element: WhatsApp },
+  { path: 'alerts', label: 'Alerts', element: Alerts },
+  { path: 'password', label: 'Password', element: Password },
+  { path: 'export', label: 'Export All', element: ExportAll },
+];
 
 const Centered = ({ children }) => (
   <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-950 p-4 text-center">
@@ -51,21 +70,17 @@ const Shell = () => {
   return (
     <Layout>
       <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/isps" element={<IspList />} />
-        <Route path="/isps/:id/*" element={<IspLayout />} />
+        <Route path="/isps/:key/*" element={<IspLayout />} />
         <Route path="/new-isp" element={<NewIsp />} />
         <Route path="/approvals" element={<Approvals />} />
         <Route path="/sub-admins" element={<SubAdminList />} />
         <Route path="/sub-admins/:id/*" element={<SubAdminDetail />} />
         <Route path="/new-sub-admin" element={<NewSubAdmin />} />
-        <Route path="/money/report" element={<Report />} />
-        <Route path="/money/expenses" element={<Expenses />} />
-        <Route path="/export" element={<ExportAll />} />
-        <Route path="/logs/logins" element={<LoginLogs />} />
-        <Route path="/logs/staff" element={<StaffLogs />} />
-        <Route path="/settings/whatsapp" element={<WhatsApp />} />
-        <Route path="/settings/alerts" element={<Alerts />} />
-        <Route path="/settings/password" element={<Password />} />
+        <Route path="/report/*" element={<TabPage base="/report" tabs={REPORT_TABS} />} />
+        <Route path="/logs/*" element={<TabPage base="/logs" tabs={LOG_TABS} />} />
+        <Route path="/settings/*" element={<TabPage base="/settings" tabs={SETTING_TABS} />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
       </Routes>
     </Layout>

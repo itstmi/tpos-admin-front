@@ -1,48 +1,16 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, LogOut, Menu, Moon, Sun, X } from 'lucide-react';
+import { LogOut, Menu, Moon, Sun, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { MENU, pageTitle } from '../menu';
-
-const isActive = (pathname, path) => pathname === path || pathname.startsWith(`${path}/`);
+import { MENU, isActive, pageTitle } from '../menu';
 
 const linkClass = (active) => `
-  flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200
+  flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
   ${active
     ? 'bg-gradient-to-r from-emerald-500/20 to-emerald-500/5 text-emerald-400 border-l-2 border-emerald-400'
     : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'}
 `;
-
-const MenuGroup = ({ item, pathname, onPick }) => {
-  const groupActive = item.children.some((c) => isActive(pathname, c.path));
-  const [open, setOpen] = useState(groupActive);
-  const shown = open || groupActive;
-
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setOpen(!shown)}
-        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${groupActive ? 'text-emerald-400' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'}`}
-      >
-        <item.icon size={20} strokeWidth={groupActive ? 2.5 : 2} />
-        <span className="font-medium flex-1 text-left">{item.label}</span>
-        <ChevronDown size={16} className={`transition-transform duration-200 ${shown ? 'rotate-180' : ''}`} />
-      </button>
-      {shown && (
-        <div className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
-          {item.children.map((c) => (
-            <Link key={c.path} to={c.path} onClick={onPick} className={linkClass(isActive(pathname, c.path))}>
-              <c.icon size={18} />
-              <span className="text-sm font-medium">{c.label}</span>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -73,14 +41,15 @@ const Layout = ({ children }) => {
 
         <nav className="p-4 space-y-1 mt-2">
           <p className="px-4 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-3">Menu</p>
-          {MENU.map((item) => (item.children
-            ? <MenuGroup key={item.label} item={item} pathname={pathname} onPick={close} />
-            : (
-              <Link key={item.path} to={item.path} onClick={close} className={linkClass(isActive(pathname, item.path))}>
-                <item.icon size={20} />
+          {MENU.map((item) => {
+            const active = isActive(pathname, item);
+            return (
+              <Link key={item.path} to={item.path} onClick={close} className={linkClass(active)}>
+                <item.icon size={20} strokeWidth={active ? 2.5 : 2} />
                 <span className="font-medium">{item.label}</span>
               </Link>
-            )))}
+            );
+          })}
         </nav>
       </aside>
 
