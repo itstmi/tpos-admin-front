@@ -16,7 +16,7 @@ const TabPage = ({ base, tabs }) => (
     </div>
     <Routes>
       {tabs.map((t) => <Route key={t.path} path={t.path} element={<t.element />} />)}
-      <Route path="*" element={<Navigate to={tabs[0].path} replace />} />
+      <Route path="*" element={<Navigate to={`${base}/${tabs[0].path}`} replace />} />
     </Routes>
   </div>
 );

@@ -61,7 +61,7 @@ const SubAdminDetail = () => {
                 <Route path="collections" element={<Collections {...props} />} />
                 <Route path="handovers" element={<Handovers {...props} />} />
                 <Route path="settings" element={<Settings {...props} />} />
-                <Route path="*" element={<Navigate to="account" replace />} />
+                <Route path="*" element={<Navigate to={`/sub-admins/${id}/account`} replace />} />
               </Routes>
             </>
           );

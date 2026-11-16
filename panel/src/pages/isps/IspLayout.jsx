@@ -68,7 +68,7 @@ const Isp = ({ isp, reloadIsp }) => {
         {TABS.map((t) => (
           <Route key={t.path} path={t.path} element={<t.element isp={isp} ispId={id} reloadIsp={reloadIsp} ispSlug={isp.slug} />} />
         ))}
-        <Route path="*" element={<Navigate to="overview" replace />} />
+        <Route path="*" element={<Navigate to={`/isps/${isp.slug}/overview`} replace />} />
       </Routes>
     </>
   );
