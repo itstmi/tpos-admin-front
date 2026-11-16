@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import { z } from 'zod';
-import { requireSuperAdmin } from '../auth/panel.js';
+import { requireCfAccess, requirePanelHeader, requireSuperAdmin } from '../auth/panel.js';
+import { panelAccountRoutes, panelLoginRoutes } from '../panelLogin.js';
 import { panelLogRoutes } from '../activity.js';
 import { alertRoutes, raiseAlert } from '../alerts.js';
 import { importRoutes } from '../import.js';
@@ -27,7 +28,10 @@ router.use(rateLimit({
   message: { error: 'too_many_requests' },
 }));
 
+router.use(requireCfAccess, requirePanelHeader);
+panelLoginRoutes(router);
 router.use(requireSuperAdmin);
+panelAccountRoutes(router);
 
 router.get('/me', (req, res) => {
   res.json({ admin: req.admin });
