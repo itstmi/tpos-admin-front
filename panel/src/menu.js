@@ -1,4 +1,4 @@
-import { Building2, CheckSquare, KeyRound, List, PlusCircle, Settings } from 'lucide-react';
+import { Building2, CheckSquare, KeyRound, List, PlusCircle, Settings, UserPlus, Users } from 'lucide-react';
 
 // Sidebar menu. A group opens as a sub menu; only pages that exist are listed.
 export const MENU = [
@@ -11,6 +11,14 @@ export const MENU = [
     ],
   },
   { path: '/approvals', label: 'Approvals', icon: CheckSquare },
+  {
+    label: 'Sub Admins',
+    icon: Users,
+    children: [
+      { path: '/sub-admins', label: 'All Sub Admins', icon: List },
+      { path: '/new-sub-admin', label: 'New Sub Admin', icon: UserPlus },
+    ],
+  },
   {
     label: 'Settings',
     icon: Settings,

@@ -11,6 +11,9 @@ import IspList from './pages/isps/IspList';
 import Password from './pages/settings/Password';
 import Approvals from './pages/Approvals';
 import NewIsp from './pages/NewIsp';
+import NewSubAdmin from './pages/subadmins/NewSubAdmin';
+import SubAdminDetail from './pages/subadmins/SubAdminDetail';
+import SubAdminList from './pages/subadmins/SubAdminList';
 
 const Centered = ({ children }) => (
   <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-950 p-4 text-center">
@@ -46,6 +49,9 @@ const Shell = () => {
         <Route path="/isps/:id/*" element={<IspLayout />} />
         <Route path="/new-isp" element={<NewIsp />} />
         <Route path="/approvals" element={<Approvals />} />
+        <Route path="/sub-admins" element={<SubAdminList />} />
+        <Route path="/sub-admins/:id/*" element={<SubAdminDetail />} />
+        <Route path="/new-sub-admin" element={<NewSubAdmin />} />
         <Route path="/settings/password" element={<Password />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
       </Routes>

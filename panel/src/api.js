@@ -123,6 +123,13 @@ const MESSAGES = {
   invalid_area: 'This area does not belong to the ISP.',
   PHONE_EXISTS: 'An ISP with this phone number already exists.',
   CHARGES_BELOW_TPOS: 'Monthly charges cannot be less than the TPOS amount.',
+  USERNAME_EXISTS: 'This username is already taken.',
+  HAS_HISTORY: 'This sub admin has money records, so it cannot be deleted. Block it instead.',
+  HANDOVER_CHANGED: 'New collections came in. The amounts are refreshed, check and save again.',
+  NOTHING_TO_HANDOVER: 'Nothing is due from this sub admin.',
+  AMOUNT_EXCEEDS_DUE: 'Received amount is more than what is due.',
+  INVALID_AMOUNT: 'Amount is not valid.',
+  SUB_ADMIN_NOT_FOUND: 'Sub admin not found.',
 };
 
 export function errorText(err) {
@@ -152,4 +159,17 @@ export const api = {
   exportCustomers: (ispId) => download(`/export${query({ isp: ispId })}`),
   createIsp: (body) => post('/isps', body),
   approvals: () => get('/approvals'),
+
+  subAdmins: () => get('/admins'),
+  subAdminDues: () => get('/sub-admins'),
+  subAdmin: (subId) => get(`/sub-admins/${id(subId)}`),
+  newPassword: () => get('/admins/new-password'),
+  createSubAdmin: (body) => post('/admins', body),
+  handover: (subId, body) => post(`/sub-admins/${id(subId)}/handover`, body),
+  setTposRate: (subId, tposAmount) => post(`/sub-admins/${id(subId)}/tpos-rate`, { tpos_amount: tposAmount }),
+  setTrialLimit: (subId, trialLimit) => post(`/sub-admins/${id(subId)}/trial-limit`, { trial_limit: trialLimit }),
+  setSubProfile: (subId, name, city) => post(`/admins/${id(subId)}/profile`, { name, city }),
+  resetSubPassword: (subId, password) => post(`/admins/${id(subId)}/password`, { password }),
+  blockSubAdmin: (subId, blocked, isps) => post(`/admins/${id(subId)}/block`, { blocked, isps }),
+  deleteSubAdmin: (subId) => send('DELETE', `/admins/${id(subId)}`),
 };
