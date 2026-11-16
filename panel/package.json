@@ -1,0 +1,28 @@
+{
+  "name": "tpos-admin-panel",
+  "private": true,
+  "version": "0.1.0",
+  "author": "FAAH TECH (SMC-PRIVATE) LIMITED",
+  "description": "TPOS super admin panel",
+  "type": "module",
+  "engines": {
+    "node": ">=24.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "lucide-react": "0.562.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hot-toast": "2.6.0",
+    "react-router-dom": "7.18.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.18",
+    "@vitejs/plugin-react": "5.1.2",
+    "tailwindcss": "4.1.18",
+    "vite": "7.3.6"
+  }
+}

@@ -18,6 +18,7 @@ export const config = Object.freeze({
   cfTeamDomain: cfTeamDomain.replace(/\/$/, ''),
   cfAud,
   panelReady: Boolean(cfTeamDomain && cfAud),
+  panelDir: process.env.PANEL_DIR || '/opt/tposadmin/panel',
   wahaUrl: (process.env.WAHA_URL || 'http://127.0.0.1:3001').replace(/\/$/, ''),
   wahaKey: process.env.WAHA_API_KEY || '',
 });

@@ -4,6 +4,7 @@ import { noteServerError } from './alerts.js';
 import { config } from './config.js';
 import appRoutes from './routes/app.js';
 import panelRoutes from './routes/panel.js';
+import { panelStatic } from './panelStatic.js';
 
 const app = express();
 
@@ -23,6 +24,7 @@ function onlyHost(host) {
 
 app.use('/api/panel', onlyHost(config.panelHost), panelRoutes);
 app.use('/api/app', onlyHost(config.appHost), appRoutes);
+app.use(panelStatic());
 
 app.use((req, res) => {
   res.status(404).json({ error: 'not_found' });

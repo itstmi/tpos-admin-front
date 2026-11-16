@@ -1,0 +1,306 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 1. backdrop-blur fallback, solid background on old browsers */
+@supports not (backdrop-filter: blur(1px)) {
+  .backdrop-blur-xl,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Header fallback */
+  .bg-white\/80 {
+    background-color: rgb(255 255 255) !important;
+  }
+  .dark .bg-slate-900\/80 {
+    background-color: rgb(15 23 42) !important;
+  }
+
+  /* Overlay fallback */
+  .bg-black\/60 {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+  }
+}
+
+/* 2. position: sticky fallback */
+@supports not (position: sticky) {
+  .sticky {
+    position: relative !important;
+  }
+}
+
+/* 3. CSS transform fallback, sidebar left-based fallback */
+@supports not (transform: translateX(0)) {
+  /* Large screen — sidebar always visible */
+  @media (min-width: 1024px) {
+    aside {
+      left: 0 !important;
+    }
+  }
+}
+
+/* 4. Scrollable tabs — horizontal scroll on small screens */
+.tabs-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  gap: 0.5rem;
+  padding-bottom: 2px;
+}
+.tabs-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+.tabs-scroll > * {
+  flex-shrink: 0;
+}
+
+/* 5. CSS Grid fallback — 2-column layout */
+@supports not (display: grid) {
+  .grid {
+    display: -ms-flexbox !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  .grid-cols-2 > * {
+    width: 50% !important;
+    box-sizing: border-box !important;
+  }
+  .grid-cols-3 > * {
+    width: 33.33% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* 6. CSS transition fallback */
+@supports not (transition: all 0.3s) {
+  .transition-all,
+  .transition-colors,
+  .transition-transform {
+    transition: none !important;
+  }
+}
+
+/* 7. CSS gradient fallback */
+@supports not (background: linear-gradient(to right, red, blue)) {
+  .bg-gradient-to-r,
+  .bg-gradient-to-br {
+    background-image: none !important;
+  }
+}
+
+/* Dark mode */
+.dark {
+  color-scheme: dark;
+}
+
+/* Background Colors */
+.dark .bg-white {
+  background-color: rgb(15 23 42) !important;
+}
+
+.dark .bg-slate-50 {
+  background-color: rgb(2 6 23) !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: rgb(15 23 42) !important;
+}
+
+/* Text Colors */
+.dark .text-slate-800 {
+  color: rgb(241 245 249) !important;
+}
+
+.dark .text-slate-700 {
+  color: rgb(226 232 240) !important;
+}
+
+.dark .text-slate-600 {
+  color: rgb(203 213 225) !important;
+}
+
+.dark .text-slate-500 {
+  color: rgb(148 163 184) !important;
+}
+
+/* Border Colors */
+.dark .border-slate-200 {
+  border-color: rgb(51 65 85) !important;
+}
+
+.dark .border-slate-100 {
+  border-color: rgb(30 41 59) !important;
+}
+
+.dark .border-slate-200\/60 {
+  border-color: rgb(51 65 85 / 0.6) !important;
+}
+
+.dark .border-slate-200\/50 {
+  border-color: rgb(51 65 85 / 0.5) !important;
+}
+
+/* Hover States */
+.dark .hover\:bg-slate-50:hover {
+  background-color: rgb(30 41 59) !important;
+}
+
+.dark .hover\:bg-slate-100:hover {
+  background-color: rgb(30 41 59) !important;
+}
+
+/* Input Fields */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: rgb(30 41 59) !important;
+  border-color: rgb(51 65 85) !important;
+  color: rgb(241 245 249) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgb(100 116 139) !important;
+}
+
+/* Tables */
+.dark table thead {
+  background-color: rgb(30 41 59) !important;
+}
+
+.dark table tbody tr:hover {
+  background-color: rgb(30 41 59 / 0.5) !important;
+}
+
+/* Modals */
+.dark .bg-white.rounded-2xl {
+  background-color: rgb(15 23 42) !important;
+}
+
+/* Divide Colors */
+.dark .divide-slate-100 > * + * {
+  border-color: rgb(30 41 59) !important;
+}
+
+.dark .divide-slate-200 > * + * {
+  border-color: rgb(51 65 85) !important;
+}
+
+/* Specific Fixes */
+.dark .bg-slate-50\/50 {
+  background-color: rgb(30 41 59 / 0.5) !important;
+}
+
+.dark .hover\:bg-slate-50\/50:hover {
+  background-color: rgb(30 41 59 / 0.5) !important;
+}
+
+.dark .ring-white {
+  --tw-ring-color: rgb(15 23 42) !important;
+}
+
+/* Tinted boxes keep a light background in dark mode while the text inside
+   turns near white, which makes it unreadable. These keep the same colour
+   but at a low opacity so they read as dark tinted panels. */
+.dark .bg-blue-50 {
+  background-color: rgb(59 130 246 / 0.12) !important;
+}
+
+.dark .bg-emerald-50 {
+  background-color: rgb(16 185 129 / 0.12) !important;
+}
+
+.dark .bg-green-50 {
+  background-color: rgb(34 197 94 / 0.12) !important;
+}
+
+.dark .bg-amber-50 {
+  background-color: rgb(245 158 11 / 0.12) !important;
+}
+
+.dark .bg-red-50 {
+  background-color: rgb(239 68 68 / 0.12) !important;
+}
+
+.dark .bg-red-50\/50 {
+  background-color: rgb(239 68 68 / 0.08) !important;
+}
+
+.dark .bg-rose-50 {
+  background-color: rgb(244 63 94 / 0.12) !important;
+}
+
+.dark .bg-purple-50 {
+  background-color: rgb(168 85 247 / 0.12) !important;
+}
+
+.dark .bg-violet-50 {
+  background-color: rgb(139 92 246 / 0.12) !important;
+}
+
+.dark .bg-cyan-50 {
+  background-color: rgb(6 182 212 / 0.12) !important;
+}
+
+.dark .bg-orange-50 {
+  background-color: rgb(249 115 22 / 0.12) !important;
+}
+
+.dark .border-blue-100 {
+  border-color: rgb(59 130 246 / 0.25) !important;
+}
+
+.dark .border-emerald-100 {
+  border-color: rgb(16 185 129 / 0.25) !important;
+}
+
+.dark .border-green-100 {
+  border-color: rgb(34 197 94 / 0.25) !important;
+}
+
+.dark .border-amber-100 {
+  border-color: rgb(245 158 11 / 0.25) !important;
+}
+
+.dark .border-red-100 {
+  border-color: rgb(239 68 68 / 0.25) !important;
+}
+
+.dark .border-rose-100 {
+  border-color: rgb(244 63 94 / 0.25) !important;
+}
+
+.dark .border-purple-100 {
+  border-color: rgb(168 85 247 / 0.25) !important;
+}
+
+.dark .border-violet-100 {
+  border-color: rgb(139 92 246 / 0.25) !important;
+}
+
+.dark .border-cyan-100 {
+  border-color: rgb(6 182 212 / 0.25) !important;
+}
+
+.dark .border-orange-100 {
+  border-color: rgb(249 115 22 / 0.25) !important;
+}
+
+/* Hide the page scrollbar while keeping the page scrollable */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
