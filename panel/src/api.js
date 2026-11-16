@@ -130,6 +130,9 @@ const MESSAGES = {
   AMOUNT_EXCEEDS_DUE: 'Received amount is more than what is due.',
   INVALID_AMOUNT: 'Amount is not valid.',
   SUB_ADMIN_NOT_FOUND: 'Sub admin not found.',
+  whatsapp_unavailable: 'WhatsApp server is not reachable right now.',
+  not_started: 'WhatsApp is not started yet. Press Connect.',
+  no_alert_phone: 'Save an alert number first.',
 };
 
 export function errorText(err) {
@@ -172,4 +175,21 @@ export const api = {
   resetSubPassword: (subId, password) => post(`/admins/${id(subId)}/password`, { password }),
   blockSubAdmin: (subId, blocked, isps) => post(`/admins/${id(subId)}/block`, { blocked, isps }),
   deleteSubAdmin: (subId) => send('DELETE', `/admins/${id(subId)}`),
+
+  report: (start, end) => get(`/report${query({ start, end })}`),
+  expenses: (start, end, page) => get(`/expenses${query({ start, end, page })}`),
+  addExpense: (body) => post('/expenses', body),
+  deleteExpense: (expenseId) => send('DELETE', `/expenses/${id(expenseId)}`),
+
+  loginLogs: (isp, page) => get(`/logs/logins${query({ isp, page })}`),
+  staffLogs: (admin, page) => get(`/logs/staff${query({ admin, page })}`),
+
+  whatsappStatus: () => get('/whatsapp/status'),
+  whatsappConnect: () => post('/whatsapp/connect'),
+  whatsappQr: () => get('/whatsapp/qr'),
+  whatsappDisconnect: () => post('/whatsapp/disconnect'),
+
+  alerts: () => get('/alerts'),
+  setAlertPhone: (phone) => post('/alerts/phone', { phone }),
+  testAlert: () => post('/alerts/test'),
 };

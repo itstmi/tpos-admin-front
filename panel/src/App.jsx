@@ -10,6 +10,12 @@ import IspLayout from './pages/isps/IspLayout';
 import IspList from './pages/isps/IspList';
 import Password from './pages/settings/Password';
 import Approvals from './pages/Approvals';
+import ExportAll from './pages/ExportAll';
+import { LoginLogs, StaffLogs } from './pages/logs/Logs';
+import Expenses from './pages/money/Expenses';
+import Report from './pages/money/Report';
+import Alerts from './pages/settings/Alerts';
+import WhatsApp from './pages/settings/WhatsApp';
 import NewIsp from './pages/NewIsp';
 import NewSubAdmin from './pages/subadmins/NewSubAdmin';
 import SubAdminDetail from './pages/subadmins/SubAdminDetail';
@@ -52,6 +58,13 @@ const Shell = () => {
         <Route path="/sub-admins" element={<SubAdminList />} />
         <Route path="/sub-admins/:id/*" element={<SubAdminDetail />} />
         <Route path="/new-sub-admin" element={<NewSubAdmin />} />
+        <Route path="/money/report" element={<Report />} />
+        <Route path="/money/expenses" element={<Expenses />} />
+        <Route path="/export" element={<ExportAll />} />
+        <Route path="/logs/logins" element={<LoginLogs />} />
+        <Route path="/logs/staff" element={<StaffLogs />} />
+        <Route path="/settings/whatsapp" element={<WhatsApp />} />
+        <Route path="/settings/alerts" element={<Alerts />} />
         <Route path="/settings/password" element={<Password />} />
         <Route path="*" element={<Navigate to={HOME} replace />} />
       </Routes>

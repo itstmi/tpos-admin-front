@@ -1,6 +1,9 @@
-import { Building2, CheckSquare, KeyRound, List, PlusCircle, Settings, UserPlus, Users } from 'lucide-react';
+import {
+  BellRing, Building2, CheckSquare, Download, FileText, KeyRound, List, LogIn, MessageCircle,
+  PlusCircle, Receipt, ScrollText, Settings, UserPlus, Users, Wallet,
+} from 'lucide-react';
 
-// Sidebar menu. A group opens as a sub menu; only pages that exist are listed.
+// Sidebar menu. A group opens as a sub menu.
 export const MENU = [
   {
     label: 'ISPs',
@@ -20,9 +23,28 @@ export const MENU = [
     ],
   },
   {
+    label: 'Money',
+    icon: Wallet,
+    children: [
+      { path: '/money/report', label: 'Report', icon: FileText },
+      { path: '/money/expenses', label: 'Expenses', icon: Receipt },
+    ],
+  },
+  { path: '/export', label: 'Export All', icon: Download },
+  {
+    label: 'Logs',
+    icon: ScrollText,
+    children: [
+      { path: '/logs/logins', label: 'Login Logs', icon: LogIn },
+      { path: '/logs/staff', label: 'Staff Logs', icon: ScrollText },
+    ],
+  },
+  {
     label: 'Settings',
     icon: Settings,
     children: [
+      { path: '/settings/whatsapp', label: 'TPOS WhatsApp', icon: MessageCircle },
+      { path: '/settings/alerts', label: 'Alerts', icon: BellRing },
       { path: '/settings/password', label: 'Password', icon: KeyRound },
     ],
   },
